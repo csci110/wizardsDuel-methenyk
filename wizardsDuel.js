@@ -45,7 +45,9 @@ class playerWizard extends Sprite{
     
     handleGameLoop(){ // Keep Marcus in the display area
         this.y = Math.max(0, this.y); //Keeps the y above 0 
-        this.y = Math.min(552, this.y); //Keeps the y below 552
+        this.y = Math.min(game.displayHeight - this.height, this.y); //Keeps the y below 552
+        this.x = Math.max(0, this.x);
+        this.x = Math.min(game.displayWidth - this.width, this.x);
         this.speed = 0;
     }
 
