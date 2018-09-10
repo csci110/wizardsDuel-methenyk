@@ -44,11 +44,21 @@ class playerWizard extends Sprite{
     }
     
     handleGameLoop(){ // Keep Marcus in the display area
-        this.y = Math.max(0, this.y); //Keeps the y above 0 
+        this.y = Math.max(5, this.y); //Keeps the y above 0 
         this.y = Math.min(game.displayHeight - this.height, this.y); //Keeps the y below 552
         this.x = Math.max(0, this.x);
         this.x = Math.min(game.displayWidth - this.width, this.x);
         this.speed = 0;
+    }
+    
+    handleSpaceBar(){
+        let spell = new Spell();
+        spell.name = "A spell cast by Marcus";
+        spell.setImage("marcusSpellSheet.png");
+        spell.x = this.x;
+        spell.y = this.y;
+        spell.angle = 0;
+        
     }
 
 }
@@ -60,3 +70,13 @@ marcus.height = 48;
 marcus.setImage("marcusSheet.png");
 marcus.x = this.width;
 marcus.y = this.y;
+
+class Spell extends Sprite {
+    constructor(){
+        this.speed = 200;
+        this.width = 48;
+        this.height = 48;
+        this.defineAnimation = ("magic", 0, 7);
+        this.playAnimation = ("magic", true);
+    }
+}
