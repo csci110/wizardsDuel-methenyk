@@ -11,7 +11,7 @@ class playerWizard extends Sprite{
         this.height = 48;
         this.setImage ("marcusSheet.png");
         this.x = this.width;
-        this.y = this.y;
+        this.y = this.height;
         this.defineAnimation("down", 6, 8);
         this.defineAnimation("up",0 ,2);
         this.defineAnimation ("right", 3, 5);
@@ -51,13 +51,14 @@ class playerWizard extends Sprite{
         this.speed = 0;
     }
     
-    handleSpaceBar(){
+    handleSpacebar(){
         let spell = new Spell();
         spell.name = "A spell cast by Marcus";
         spell.setImage("marcusSpellSheet.png");
         spell.x = this.x;
         spell.y = this.y;
         spell.angle = 0;
+        this.playAnimation("right");
         
     }
 
@@ -68,15 +69,45 @@ marcus.name = "Marcus the Wizard";
 marcus.width = 48;
 marcus.height = 48;
 marcus.setImage("marcusSheet.png");
-marcus.x = this.width;
-marcus.y = this.y;
+
 
 class Spell extends Sprite {
     constructor(){
+        super();
         this.speed = 200;
         this.width = 48;
         this.height = 48;
         this.defineAnimation = ("magic", 0, 7);
         this.playAnimation = ("magic", true);
+        
     }
+    
+    handleBoundaryContact() {
+    // Delete spell when it leaves display area
+    game.removeSprite(this);
 }
+
+}
+class NonPlayerWizard extends Sprite {
+    constructor(){
+        super();
+        this.name = "The mysterious stranger";
+        this.setImage("strangerSheet.png");
+        this.width = 48;
+        this.height = 48;
+        this.x = game.displayWidth - 2 * this.width;
+        this.y = this.height;
+        this.angle = 270;
+        this.speed = 150;
+        this.defineAnimation = ("left", 9, 11);
+        this.defineAnimation = ("up", 0, 2);
+        this.defineAnimation = ("down", 6, 8);
+    }
+    
+}
+
+let stranger = new NonPlayerWizard;
+stranger.name = "The mysterious stranger";
+stranger.width = 48;
+stranger.height = 48;
+stranger.setImage("strangerSheet.png");
