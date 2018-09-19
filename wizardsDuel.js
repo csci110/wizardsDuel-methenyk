@@ -88,13 +88,13 @@ class Spell extends Sprite {
     }
 
     handleCollision(otherSprite) {
-       // Compare images so Stranger's spells don't destroy each other.
+        // Compare images so Stranger's spells don't destroy each other.
         if (this.getImage() !== otherSprite.getImage()) {
-      // Adjust mostly blank spell image to vertical center.
-             let verticalOffset = Math.abs(this.y - otherSprite.y);
+            // Adjust mostly blank spell image to vertical center.
+            let verticalOffset = Math.abs(this.y - otherSprite.y);
         if (verticalOffset < this.height / 2) {
-             game.removeSprite(this);
-            new Fireball(otherSprite);
+          game.removeSprite(this);
+          new Fireball(otherSprite);
             }
         }
         return false;
@@ -134,10 +134,19 @@ class NonPlayerWizard extends Sprite {
           let spell = new Spell();
         spell.name = "A spell cast by Stranger";
         spell.setImage("strangerSpellSheet.png");
-        spell.x = this.x + this.width;
+        spell.x = this.x - this.width;
         spell.y = this.y;
         spell.angle = 180;
         this.playAnimation("left");
+        
+        if (Math.random() < 0.01) {
+             let spell = new Spell();
+             spell.x = this.x + this.width;
+            this.playAnimation("left",true);
+            this.name = "Fire";
+            this.setImage("");
+   // Play the left animation
+        }
     }
 
     handleAnimationEnd() {
@@ -162,8 +171,19 @@ class Fireball extends Sprite {
         this.setImage("fireballSheet.png");
         this.name = "A ball of fire";
         game.removeSprite(deadSprite);
-        this.defineAnimation("explode", 0, 16);
+        this.defineAnimation("explode", 0, 15);
         this.playAnimation("explode");
 
+    }
+    
+    handleAnimationEnd() {
+        game.removeSprite(this);
+        if (!game.isActiveSprite(stranger)) {
+            game.end("Congratulations!\n\nMarcus has defeated the mysterious"
+            + "\nstranger in the dark cloak!");
+        }
+          if (!game.isActiveSprite(marcus)) {
+            game.end("Marcus is defeated by the mysterious\nstranger in the dark cloak!\n\nBetter luck next time.");
+        }
     }
 }
