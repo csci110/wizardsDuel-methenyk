@@ -17,6 +17,7 @@ class playerWizard extends Sprite {
         this.defineAnimation("right", 3, 5);
         this.defineAnimation("left", 9, 11);
         this.speedWhenWalking = 100;
+        this.spellCastTime = 0;
     }
 
     handleDownArrowKey() {
@@ -52,6 +53,9 @@ class playerWizard extends Sprite {
     }
 
     handleSpacebar() {
+        let now = game.getTime();
+        if(now - this.spellCastTime >= 2) {
+            this.spellCastTime = now;
         let spell = new Spell();
         spell.name = "A spell cast by Marcus";
         spell.setImage("marcusSpellSheet.png");
@@ -59,6 +63,7 @@ class playerWizard extends Sprite {
         spell.y = this.y;
         spell.angle = 0;
         this.playAnimation("right");
+        }
 
     }
 
@@ -131,6 +136,7 @@ class NonPlayerWizard extends Sprite {
             this.angle = 90;
             this.playAnimation("up", true);
         }
+        if(Math.random() < 0.01){
           let spell = new Spell();
         spell.name = "A spell cast by Stranger";
         spell.setImage("strangerSpellSheet.png");
@@ -138,16 +144,9 @@ class NonPlayerWizard extends Sprite {
         spell.y = this.y;
         spell.angle = 180;
         this.playAnimation("left");
-        
-        if (Math.random() < 0.01) {
-             let spell = new Spell();
-             spell.x = this.x + this.width;
-            this.playAnimation("left",true);
-            this.name = "Fire";
-            this.setImage("");
-   // Play the left animation
         }
     }
+    
 
     handleAnimationEnd() {
         if (this.angle === 90) {
